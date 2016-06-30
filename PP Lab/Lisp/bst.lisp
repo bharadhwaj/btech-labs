@@ -1,0 +1,42 @@
+(setf found 0 L() R() root() D())
+(defun bst(x node f)
+	(cond((eq node ())(if(= f 1)
+			(setf node(list L x R))))
+		((and(< f 1)(eq(second node)x))(setf found 1))
+			((= x(second node))(setf(first node)(bst x(first node)f)))
+			((< x(second node))(setf(first node)(bst x(first node)f)))
+			(t(setf(third node)(bst x(third node)f))))node
+)
+
+(defun in(x)
+	(setf root (bst x root 1))
+)
+
+
+(defun sch(x)
+	(setf found 0)
+	(bst x root -1)
+	(if(= found 1)'found
+		'not_found
+	)
+)
+
+(defun disp_bst(node f)
+	(if(eq node())(return-from disp_bst 'nil))
+	(if(= f 3)(push(second node)D))
+	(disp_bst(first node)f)
+	(if(= f 2)(push(second node)D))
+	(disp_bst(third node)f)
+	(if(= f 4)(push(second node)D))
+)
+(defun display()
+	(setf d())
+	(disp_bst root 2)
+	(format t"~%Inorder:~a"(reverse D))
+	(setf d())
+	(disp_bst root 3)
+	(format t"~%Preorder:~a"(reverse D))
+	(setf d())
+	(disp_bst root 4)
+	(format t"~%Postorder:~a"(reverse D))	
+)		
