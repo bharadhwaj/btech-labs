@@ -1,0 +1,59 @@
+%{
+	#include<stdio.h>
+	#include<string.h>
+	void yyerror(char *s);
+	int yylex(void);
+	int var = 0;
+%}
+
+%union {
+    char str[32];
+}
+
+%token P_OPEN P_CLOSE NUMBER NEWLINE
+
+%type <str> NUMBER
+%type <str> expression
+
+%left '+' '-'
+%left '*' '/'
+
+%%
+
+program: 
+    	statement 					{ 	return; };
+
+statement:
+		NUMBER '=' expression		{ 	printf(" %s = %s", $1, $3); };
+
+expression: 
+       	expression '+' expression 	{  	printf(" t%d = %s + %s \n",var, $1, $3);
+										sprintf($$,"t%d",var++);
+								   	}
+       | expression '-' expression 	{  	printf(" t%d = %s - %s \n",var, $1, $3);
+        								sprintf($$,"t%d",var++); 
+        							}
+       | expression '*' expression 	{  	printf(" t%d = %s * %s \n",var, $1, $3);
+        								sprintf($$,"t%d",var++); 
+        							}
+       | expression '/' expression 	{  	printf(" t%d = %s / %s \n",var, $1, $3);
+        								sprintf($$,"t%d",var++); 
+        							}
+       | P_OPEN expression P_CLOSE 	{ 	strcpy($$, $2); }
+       
+       | NUMBER 					{ 	strcpy($$, $1); }
+       ;
+       
+%%
+
+void main(int argc, char *argv[]) {
+
+	yyparse();
+	printf("\n");
+
+}
+
+void yyerror(char *s){
+    printf("Error: %s\n", s);
+}
+

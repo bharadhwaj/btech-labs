@@ -1,0 +1,84 @@
+%{
+	#include<stdio.h>
+	#include<string.h>
+	int yylex(void);
+	int yyerror(char *);
+	
+	char *temp1;
+	
+%}
+
+
+%union {
+	char s[25];
+};
+
+%type <s>expr
+%type <s>product_term
+%type <s>number
+
+
+%token <s>NUMBER
+%token <s>VARIABLE
+
+%start line
+
+%%
+
+line: 	line expr '\n'	{ printf("\nPostfix : %s \n",$2); }
+		| line '\n'
+		|
+		;
+
+expr: 	expr "+" product_term		{	temp1 = $1;
+										strcat(temp1," ");
+										strcat(temp1,$3);
+										strcat(temp1," +");
+										strcpy($$,temp1);
+									}
+									
+		|expr '-' product_term		{
+										temp1 = $1;
+										strcat(temp1," ");
+										strcat(temp1,$3);
+										strcat(temp1," -");
+										strcpy($$,temp1);
+									}
+									
+		| product_term				{ strcpy($$,$1); }
+		;
+		
+product_term:	 product_term '*' number	{
+												temp1 = $1;
+												strcat(temp1," ");
+												strcat(temp1,$3);
+												strcat(temp1," *");
+												strcpy($$,temp1);
+											}
+											
+				| product_term '/' number	{
+												temp1 = $1;
+												strcat(temp1," ");
+												strcat(temp1,$3);
+												strcat(temp1," /");
+												strcpy($$,temp1);
+											}
+											
+				| number					{ strcpy($$,$1); }
+				;
+
+number:		'(' expr ')'		{ strcpy($$,$2); }
+			| NUMBER			{ strcpy($$,$1); }
+			| VARIABLE			{ strcpy($$,$1); }
+			;
+
+%%
+
+int yyerror(char *s) {
+	return 1;
+}
+
+int main(int argc,char *argv[]) {
+	yyparse();
+	return 1;
+}

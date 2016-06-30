@@ -1,0 +1,24 @@
+import java.io.*;
+import java.net.*;
+public class ftpserver {
+    public static void main(String args[])throws IOException {
+        Hashtable <String, String> validation = new Hashtable<String,String>;
+        validation.put("bharadhu","bharadhu");
+        String user, pwd, send,receive;
+        ServerSocket ss=new ServerSocket(3034);
+        Socket cs1= ss.accept();
+        DataInputStream chatin = new DataInputStream(cs1.getInputStream());
+        DataOutputStream chatout = new DataOutputStream(cs1.getOutputStream());
+        DataInputStream keyin = new DataInputStream(System.in);
+        
+        if((user = chatin.readLine())!=null) {
+            System.out.println("Username: "+user);
+        }
+        if((pwd = chatin.readLine())!=null) {
+            System.out.println("Password: "+pwd);
+        }
+        System.out.println("Validating... Please wait for a moment...");
+        send=keyin.readLine();
+        chatout.writeBytes(send+"\n");
+    }
+}

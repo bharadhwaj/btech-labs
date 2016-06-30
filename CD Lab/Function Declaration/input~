@@ -1,0 +1,4 @@
+int area(int length, int breadth);
+
+int area(float length, float breadth);
+

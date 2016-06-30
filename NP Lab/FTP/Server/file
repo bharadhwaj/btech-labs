@@ -1,0 +1,11 @@
+Charset charset = Charset.forName("US-ASCII");
+String s = "Hello world";
+BufferedWriter writer = null;
+writer.write(s,o,s.length());
+
+
+
+NoSuchFileException for no such file
+
+
+

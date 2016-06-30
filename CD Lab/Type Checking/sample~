@@ -1,0 +1,15 @@
+float c = 12.01;
+
+int z = 'c';
+
+int a = 10;
+
+char x = 10;
+
+int b = 15;
+
+int f;
+
+f = a + b;	
+
+c = f + a;

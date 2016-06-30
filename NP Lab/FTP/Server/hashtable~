@@ -1,0 +1,8 @@
+HaShtable <String, String> num = new Hashtable<String,String>
+
+num.put(user,pwd);
+
+num.get(user)
+
+for(Map.Entry m: num.entrySet())
+    sop(m.getKey()+""+m.getValue())

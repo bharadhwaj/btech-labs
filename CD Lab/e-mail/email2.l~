@@ -1,0 +1,20 @@
+%{
+#include<stdio.h>
+int flag = 0;
+%}
+
+
+%%
+
+[a-zA-Z0-9]+\@[a-zA-Z0-9]+\.[a-zA-Z]+ { flag = 1; }
+ . {}
+%%
+
+main()
+{
+	yylex();
+	if(flag == 1)
+		printf("Valid email address\n");
+	else
+		printf("Invalid email address\n");
+}
